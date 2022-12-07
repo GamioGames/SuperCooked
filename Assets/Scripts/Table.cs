@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Table : Tile
 {
-    public override void StopAction()
+    public override void ActionComplete()
     {
     }
 

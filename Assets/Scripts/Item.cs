@@ -2,12 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Item : MonoBehaviour
+public abstract class Item : MonoBehaviour
 {
-    // Public
-    public enum MyEnum
+    // Public *****
+    public enum ItemType
     {
-        RawFood
+        Item,
+        Food,
+        Dish,
     }
-
+    
+    // Private *****
+    protected ItemType _itemType;
+    
+    // Public Methods
+    public abstract void NextState();
+    public ItemType GetItemType() => _itemType;
 }

@@ -78,7 +78,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _skinnedMeshRenderer: {fileID: 3009743353143403953}
   itemAnchor: {fileID: 7027808645972068014}
-  foodPrefab: {fileID: 3355937147705530535, guid: 0362e7cb1cfdf7244a82c4f84a1ea9c9,
+  foodItem: {fileID: 4124599464209576814, guid: 0362e7cb1cfdf7244a82c4f84a1ea9c9,
     type: 3}
 --- !u!95 &1234595648015089675
 Animator:

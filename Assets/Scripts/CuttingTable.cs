@@ -12,7 +12,6 @@ public class CuttingTable : Tile
     private bool _isCutting;
     
     // MonoBehavior Methods
-
     private void Start()
     {
         _timeToCut = timeToCut;
@@ -20,19 +19,45 @@ public class CuttingTable : Tile
 
     private void Update()
     {
+        if (!_isCutting) return;
+        
         _timeToCut -= Time.deltaTime;
 
-        if (_timeToCut <= 0)
+        if (_timeToCut <= 0 && _item.TryGetComponent(out Food food) && food.CanBeCut())
         {
-            Debug.Log("YOU CUUUT");
+            food.NextState();
+            ActionComplete();
         }
     }
 
     // Public Methods *****
-    public override void StopAction()
+    public override void TakeAction(PlayerInteraction owner, Item item, Action onActionComplete)
     {
+        _onActionComplete = onActionComplete;
+        
+        if (item & !_item)
+        {
+            if(GrabItem(item)) owner.DropItem();
+        }
+        else if(!item && _item)
+        {
+            if (_item.TryGetComponent(out Food food) && food.CanBeCut())
+            {
+                TakeAdvanceAction(owner);
+            }else
+            {
+                if( owner.GrabItem(_item)) DropItem();
+            }
+        }
+    }
+
+    public override void ActionComplete()
+    {
+        if (!_item && !_isCutting) return;
+        
         Debug.Log("Stop cutting?");
-        if (_isCutting) _isCutting = false;
+        _isCutting = false;
+        _onActionComplete();
     }
 
     protected override void TakeAdvanceAction(PlayerInteraction owner)
@@ -40,5 +65,6 @@ public class CuttingTable : Tile
         Debug.Log("Start cutting");
         _timeToCut = timeToCut;
         _isCutting = true;
+        owner.StartCutAnimation();
     }
 }

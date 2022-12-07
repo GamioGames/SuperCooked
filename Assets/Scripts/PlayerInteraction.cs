@@ -8,25 +8,29 @@ public class PlayerInteraction : MonoBehaviour
     // Serialized *****
     [SerializeField] private Transform itemAnchor;
     // Private *****
+    private Animator _anim;
     private List<Tile> _tileCloseList = new List<Tile>();
     private Tile _closestTile;
-    private GameObject _item;
+    private Item _item;
 
     // MonoBehaviour Callbacks *****
+    private void Awake()
+    {
+        _anim = GetComponent<Animator>();
+    }
     private void Update()
     {
         if (!_closestTile) return;
 
         if (Input.GetMouseButtonDown(0))
         {
-            Debug.Log("Try to acces to tile: " + _closestTile.name);
-            _closestTile.TakeAction(this, _item);
+            _closestTile.TakeAction(this, _item, StopCutAnimation);
         }
 
         if (Input.GetMouseButtonUp(0))
         {
             // Only Apply for long actions
-            _closestTile.StopAction();
+            _closestTile.ActionComplete();
         }
     }
 
@@ -74,7 +78,7 @@ public class PlayerInteraction : MonoBehaviour
     }
     
     // Public Methods *****
-    public bool GrabItem(GameObject item)
+    public bool GrabItem(Item item)
     {
         if (_item) return false; //This player already have item
 
@@ -87,5 +91,15 @@ public class PlayerInteraction : MonoBehaviour
     public void DropItem()
     {
         _item = null;
+    }
+
+    public void StartCutAnimation()
+    {
+        _anim.SetBool("Cutting", true);
+    }
+
+    public void StopCutAnimation()
+    {
+        _anim.SetBool("Cutting", false);
     }
 }

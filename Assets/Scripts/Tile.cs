@@ -10,7 +10,8 @@ public abstract class Tile : MonoBehaviour
     [SerializeField] private Transform itemAnchor;
     // Private *****
     private MeshRenderer _meshRenderer;
-    private GameObject _item;
+    protected Item _item;
+    protected Action _onActionComplete;
 
     // MonoBehavior Callbacks
     protected virtual void Awake()
@@ -19,8 +20,10 @@ public abstract class Tile : MonoBehaviour
     }
 
     // Public Methods
-    public void TakeAction(PlayerInteraction owner, GameObject item)
+    public virtual void TakeAction(PlayerInteraction owner, Item item, Action onActionComplete)
     {
+        _onActionComplete = onActionComplete;
+        
         if (item & !_item)
         {
             if(GrabItem(item)) owner.DropItem();
@@ -59,7 +62,7 @@ public abstract class Tile : MonoBehaviour
         }
     }
     
-    public abstract void StopAction();
+    public abstract void ActionComplete();
     
     // Private Methods *****
     protected abstract void TakeAdvanceAction(PlayerInteraction owner);
@@ -86,7 +89,7 @@ public abstract class Tile : MonoBehaviour
             }
         }
     }
-    private bool GrabItem(GameObject item)
+    protected bool GrabItem(Item item)
     {
         if (_item) return false; //This table already have item
         
@@ -96,7 +99,7 @@ public abstract class Tile : MonoBehaviour
         return true;
     }
 
-    private void DropItem()
+    protected void DropItem()
     {
         _item = null;
     }
