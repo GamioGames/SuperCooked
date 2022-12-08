@@ -25,21 +25,24 @@ public class CuttingTable : Tile
 
         if (_timeToCut <= 0 && _item.TryGetComponent(out Food food) && food.CanBeCut())
         {
-            food.NextState();
-            ActionComplete();
+            if (CraftFood(food.GetNextFoodData()))
+            {
+                ActionComplete();
+                _timeToCut = timeToCut;
+            }
         }
     }
 
     // Public Methods *****
-    public override void TakeAction(PlayerInteraction owner, Item item, Action onActionComplete)
+    public override void TakeAction(PlayerInteraction owner, Item playerItem, Action onActionComplete)
     {
         _onActionComplete = onActionComplete;
         
-        if (item & !_item)
+        if (playerItem & !_item)
         {
-            if(GrabItem(item)) owner.DropItem();
+            if(GrabItem(playerItem)) owner.DropItem();
         }
-        else if(!item && _item)
+        else if(!playerItem && _item)
         {
             if (_item.TryGetComponent(out Food food) && food.CanBeCut())
             {
@@ -55,16 +58,28 @@ public class CuttingTable : Tile
     {
         if (!_item && !_isCutting) return;
         
-        Debug.Log("Stop cutting?");
         _isCutting = false;
         _onActionComplete();
     }
 
+    // Private Methods *****
     protected override void TakeAdvanceAction(PlayerInteraction owner)
     {
-        Debug.Log("Start cutting");
         _timeToCut = timeToCut;
         _isCutting = true;
         owner.StartCutAnimation();
+    }
+    
+    /// <summary>
+    /// Replace current item for new one
+    /// </summary>
+    private bool CraftFood(FoodData newFoodData)
+    {
+        if (!_item) return false;
+
+        GameObject newFoodClone = Instantiate(newFoodData.prefab, _item.transform.parent,false);
+        Destroy(_item.gameObject);
+        _item = newFoodClone.GetComponent<Item>();
+        return true;
     }
 }

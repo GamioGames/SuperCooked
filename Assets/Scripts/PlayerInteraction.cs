@@ -84,6 +84,7 @@ public class PlayerInteraction : MonoBehaviour
 
         _item = item;
         _item.transform.SetParent(itemAnchor,false);
+        _item.transform.localPosition = Vector3.zero;
 
         return true;
     }
@@ -91,6 +92,12 @@ public class PlayerInteraction : MonoBehaviour
     public void DropItem()
     {
         _item = null;
+    }
+
+    public void RemoveItem()
+    {
+        Destroy(_item.gameObject);
+        DropItem();
     }
 
     public void StartCutAnimation()

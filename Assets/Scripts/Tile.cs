@@ -8,35 +8,63 @@ public abstract class Tile : MonoBehaviour
     // Serialized *****
     [SerializeField] private SkinnedMeshRenderer _skinnedMeshRenderer;
     [SerializeField] private Transform itemAnchor;
+    [Header("Reference")]
+    [SerializeField] protected Item initialItem; 
     // Private *****
     private MeshRenderer _meshRenderer;
     protected Item _item;
     protected Action _onActionComplete;
-
-    // MonoBehavior Callbacks
+ 
+    // MonoBehavior Callbacks *****
     protected virtual void Awake()
     {
         _meshRenderer = GetComponent<MeshRenderer>();
+        
+        if (initialItem)
+        {
+            GrabItem(initialItem);
+        }
     }
 
     // Public Methods
-    public virtual void TakeAction(PlayerInteraction owner, Item item, Action onActionComplete)
+    public virtual void TakeAction(PlayerInteraction owner, Item playerItem, Action onActionComplete)
     {
         _onActionComplete = onActionComplete;
         
-        if (item & !_item)
+        if (!_item && playerItem)
         {
-            if(GrabItem(item)) owner.DropItem();
+            if(GrabItem(playerItem)) owner.DropItem();
         }
-        else if(!item && _item)
+        else if(_item && !playerItem)
         {
            if( owner.GrabItem(_item)) DropItem();
+        // For pot   
+        }else if (_item && _item.TryGetComponent(out Cookware cookware) && playerItem && playerItem.TryGetComponent(out Food food))
+        {
+            if (cookware.AddFood(food.GetFoodData()))
+            {
+                owner.RemoveItem();
+            }
+        }
+        // For Plate and food
+        else if (_item && _item.TryGetComponent(out Cookware cookware2) && playerItem && playerItem.TryGetComponent(out Plate plate))
+        {
+            if (cookware2.TryGetDish(out FoodData foodCooked))
+            {
+                plate.PlateUpSoup(foodCooked.prefab);
+            }
+            else
+            {
+                Debug.Log("Food not ready");
+            }
         }
         else
         {
             TakeAdvanceAction(owner);
         }
     }
+    public abstract void ActionComplete();
+    
     public void StopHighlight()
     {
         if (_meshRenderer)
@@ -61,8 +89,6 @@ public abstract class Tile : MonoBehaviour
             }
         }
     }
-    
-    public abstract void ActionComplete();
     
     // Private Methods *****
     protected abstract void TakeAdvanceAction(PlayerInteraction owner);
@@ -89,17 +115,18 @@ public abstract class Tile : MonoBehaviour
             }
         }
     }
-    protected bool GrabItem(Item item)
+    protected virtual bool GrabItem(Item item)
     {
         if (_item) return false; //This table already have item
         
         _item = item;
         _item.transform.SetParent(itemAnchor,false);
-
+        _item.transform.localPosition = Vector3.zero;;
+        
         return true;
     }
 
-    protected void DropItem()
+    protected virtual void DropItem()
     {
         _item = null;
     }

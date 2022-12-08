@@ -5,7 +5,7 @@ using UnityEngine;
 public class FoodBox : Tile
 {
     // Serialized *****
-    [SerializeField] private Item foodItem;
+    [SerializeField] private FoodData foodItem;
     
     // Private
     private Animator _animator;
@@ -26,6 +26,6 @@ public class FoodBox : Tile
     protected override void TakeAdvanceAction(PlayerInteraction owner)
     {
         _animator.SetTrigger("Open");
-        owner.GrabItem(Instantiate(foodItem));
+        owner.GrabItem(Instantiate(foodItem.prefab).GetComponent<Item>());
     }
 }
