@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Tomato
   itemSprite: {fileID: 21300000, guid: 654f181f7c9d8234f91587fd56cf8f60, type: 3}
-  foodType: 1
+  foodType: 0
   prefab: {fileID: 3355937147705530535, guid: 0362e7cb1cfdf7244a82c4f84a1ea9c9, type: 3}

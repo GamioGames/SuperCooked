@@ -7,11 +7,15 @@ public class PlayerInteraction : MonoBehaviour
 {
     // Serialized *****
     [SerializeField] private Transform itemAnchor;
+    [SerializeField] private AudioClip grabAudio;
+    [SerializeField] private AudioClip cuttingAudio;
     // Private *****
     private Animator _anim;
     private List<Tile> _tileCloseList = new List<Tile>();
     private Tile _closestTile;
     private Item _item;
+
+    private AudioSource _actualAudioSurce;
 
     // MonoBehaviour Callbacks *****
     private void Awake()
@@ -85,13 +89,15 @@ public class PlayerInteraction : MonoBehaviour
         _item = item;
         _item.transform.SetParent(itemAnchor,false);
         _item.transform.localPosition = Vector3.zero;
-
+        AudioManager.CreateSFX(grabAudio,1f,1);
+        
         return true;
     }
 
     public void DropItem()
     {
         _item = null;
+        AudioManager.CreateSFX(grabAudio,1f,0.65f);
     }
 
     public void RemoveItem()
@@ -103,10 +109,12 @@ public class PlayerInteraction : MonoBehaviour
     public void StartCutAnimation()
     {
         _anim.SetBool("Cutting", true);
+        _actualAudioSurce = AudioManager.CreateSFX(cuttingAudio, 0.4f);
     }
 
     public void StopCutAnimation()
     {
         _anim.SetBool("Cutting", false);
+        if (_actualAudioSurce) _actualAudioSurce.Stop();
     }
 }

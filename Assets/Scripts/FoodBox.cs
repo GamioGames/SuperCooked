@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class FoodBox : Tile
 {
+    [Header("Foodbox")]
     // Serialized *****
     [SerializeField] private FoodData foodItem;
     
