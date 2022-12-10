@@ -10,16 +10,11 @@ public class OrderUI : MonoBehaviour
     [SerializeField] private Image timerImage;
     // private *****
     private bool _started;
-    private float _orderTime = 30;
+    private float _orderTime;
     private float _actualOrderTime;
     
     // Monobehavior Callbacks
-
-    private void Start()
-    {
-        _started = true;
-        _actualOrderTime = _orderTime;
-    }
+    
 
     private void OnEnable()
     {
@@ -47,6 +42,7 @@ public class OrderUI : MonoBehaviour
     public void SetOrder(RecipeData recipeData)
     {
         _started = true;
-        
+        _orderTime = 60;
+        _actualOrderTime = _orderTime;
     }
 }

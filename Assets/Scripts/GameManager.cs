@@ -61,8 +61,8 @@ public class GameManager : MonoBehaviour
     {
         _stateTimer -= Time.deltaTime;
         _timeHelper -= Time.deltaTime;
+        _orderTimer -= Time.deltaTime;
 
-        
         switch (_gameState)
         {
             case GameState.PreGame:

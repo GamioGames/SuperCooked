@@ -121,7 +121,7 @@ public abstract class Tile : MonoBehaviour
         
         _item = item;
         _item.transform.SetParent(itemAnchor,false);
-        _item.transform.localPosition = Vector3.zero;;
+        _item.transform.localPosition = Vector3.zero;
         
         return true;
     }

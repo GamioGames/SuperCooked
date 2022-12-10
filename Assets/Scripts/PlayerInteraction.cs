@@ -26,12 +26,12 @@ public class PlayerInteraction : MonoBehaviour
     {
         if (!_closestTile) return;
 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             _closestTile.TakeAction(this, _item, StopCutAnimation);
         }
 
-        if (Input.GetMouseButtonUp(0))
+        if (Input.GetKeyUp(KeyCode.Space))
         {
             // Only Apply for long actions
             _closestTile.ActionComplete();
