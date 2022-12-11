@@ -24,7 +24,7 @@ public class Stove : Tile
         return canGrabItem;
     }
 
-    protected override void DropItem(bool destroy = false)
+    protected override void DropItem()
     {
         if (_item.TryGetComponent(out Cookware cookware))
         {

@@ -368,7 +368,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 1.75
+  m_Radius: 1.5
   m_Center: {x: 0, y: 1, z: 0}
 --- !u!114 &334667803636650467
 MonoBehaviour:
@@ -382,7 +382,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd310c5bc96741d46afea58aa0fee13b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 6
+  speed: 7
 --- !u!114 &6777127925706906807
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -396,6 +396,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemAnchor: {fileID: 8410303406709595129}
+  grabAudio: {fileID: 8300000, guid: ec78394ac31dbe84dacce3191c82e976, type: 3}
+  cuttingAudio: {fileID: 8300000, guid: fe8813af1fe5e3d43b87606025bb2d46, type: 3}
 --- !u!1 &5539469407252114192
 GameObject:
   m_ObjectHideFlags: 0

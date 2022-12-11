@@ -80,9 +80,8 @@ public class GameManager : MonoBehaviour
                 {
                     RecipeData newOrder = recipeDataList[0];
                     _activeRecipes.Add(newOrder);
-                    recipeDataList.Remove(recipeDataList[0]);
                     OnOrderCreate?.Invoke(this,newOrder);
-                    _orderTimer = 15;
+                    _orderTimer = 35;
                 }
                 if (_stateTimer <= 0)
                 {

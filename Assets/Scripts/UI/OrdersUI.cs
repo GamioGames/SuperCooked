@@ -8,7 +8,7 @@ public class OrdersUI : MonoBehaviour
     // Serialized
     [SerializeField] private OrderUI orderUiPrefab;
 
-    private List<OrderUI> _activeOrders;
+    private List<OrderUI> _activeOrders = new List<OrderUI>();
 
     // MonoBehaviour Callbacks
     private void OnEnable()

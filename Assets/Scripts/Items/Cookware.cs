@@ -29,6 +29,7 @@ public class Cookware : Item
     //TODO: CHANGE TO a specific pot class
     [SerializeField] private Transform potSoup;
     [SerializeField] private Vector2 yMinMaxPotSoup;
+    [SerializeField] private ProgressUI _progressUI;
 
     // Private *****
     private CookwareState _cookwareState;
@@ -48,6 +49,12 @@ public class Cookware : Item
         if (!IsCooking()) return;
         
         _cookwareTimer -= Time.deltaTime;
+
+        if (_cookwareState == CookwareState.Cooking)
+        {
+            OnItemProgressChange?.Invoke(this, _cookwareTimer/ recipe.cookingTime);
+        }
+        
         if (!(_cookwareTimer <= 0)) return;
         
         switch (_cookwareState)
@@ -99,6 +106,11 @@ public class Cookware : Item
         {
             _cookwareState = CookwareState.Cooking;
             _cookwareTimer = recipe.cookingTime;
+            
+            ProgressUI progressUI = Instantiate(_progressUI);
+            progressUI.transform.SetParent(GameObject.FindGameObjectWithTag("CanvasInteraction").transform);
+            progressUI.Set(this);
+            
         }
         else if (_cookwareState == CookwareState.Cooked)
         {

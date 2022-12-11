@@ -103,6 +103,8 @@ MonoBehaviour:
   steamParticles: {fileID: 8905611240626680468}
   potSoup: {fileID: 8361913857774853409}
   yMinMaxPotSoup: {x: -0.01, y: 0.75}
+  _progressUI: {fileID: 197488822683625985, guid: 1e464b3679cd43b4187414cb3a7904a4,
+    type: 3}
 --- !u!1001 &3465755483830286459
 PrefabInstance:
   m_ObjectHideFlags: 0

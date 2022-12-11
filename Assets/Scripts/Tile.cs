@@ -137,9 +137,8 @@ public abstract class Tile : MonoBehaviour
         return true;
     }
 
-    protected virtual void DropItem(bool destroy = false)
+    protected virtual void DropItem()
     {
-        if(destroy) Destroy(_item);
         _item = null;
     }
 }

@@ -7,6 +7,7 @@ public class Transporter : Tile
 {
     // Serialized *****
     [SerializeField] private GameObject successVfxPrefab;
+    [SerializeField] private AudioClip successAudio;
     
     // MonoBehavior Callbacks *****
 
@@ -40,7 +41,10 @@ public class Transporter : Tile
     {
         Debug.Log("Order success");
         GameManager.Instance.SuccessOrder();
-        GameObject successVfx = Instantiate(successVfxPrefab, itemAnchor);
-        DropItem(true);
+        AudioManager.CreateSFX(successAudio, 0.7f);
+        GameObject successVfx = Instantiate(successVfxPrefab, itemAnchor, false);
+        successVfx.transform.localPosition = Vector3.zero;
+        Destroy(_item, 0.25f);
+        DropItem();
     }
 }
