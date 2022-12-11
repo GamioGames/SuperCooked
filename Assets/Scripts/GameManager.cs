@@ -24,14 +24,11 @@ public class GameManager : MonoBehaviour
         InGame,
         GameOver
     }
-
-    public event EventHandler OnPregameStart;
-    public event EventHandler OnGameStart;
-    public event EventHandler OnGameOver;
-
+    
     public event EventHandler<int> OnCurrencyChange;
     public event EventHandler<float> OnTimeChange;
-    public EventHandler<RecipeData> OnOrderCreate;
+    public event EventHandler<RecipeData> OnOrderCreate;
+    public event EventHandler OnOrderSuccess;
     
     // Serialized *****
     [SerializeField] private float preGameTime;
@@ -53,7 +50,6 @@ public class GameManager : MonoBehaviour
         // Idle time
         _stateTimer = preGameTime;
         _coins = 0;
-        OnPregameStart?.Invoke(this,EventArgs.Empty);
         OnTimeChange?.Invoke(this, gameTime);
     }
 
@@ -70,7 +66,6 @@ public class GameManager : MonoBehaviour
                 {
                     _stateTimer = gameTime;
                     _gameState = GameState.InGame;
-                    OnGameStart?.Invoke(this, EventArgs.Empty);
                 }
 
                 break;
@@ -103,7 +98,11 @@ public class GameManager : MonoBehaviour
     public void SetGameOver()
     {
         _gameState = GameState.GameOver;
-        OnGameOver?.Invoke(this, EventArgs.Empty);
+    }
+
+    public void SuccessOrder()
+    {
+        OnOrderSuccess?.Invoke(this, EventArgs.Empty);
     }
     
     // Private Method

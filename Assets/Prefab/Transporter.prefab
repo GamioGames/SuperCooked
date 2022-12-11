@@ -128,6 +128,8 @@ MonoBehaviour:
   _skinnedMeshRenderer: {fileID: 0}
   itemAnchor: {fileID: 8969209403006225782}
   initialItem: {fileID: 0}
+  successVfxPrefab: {fileID: 380227444492344045, guid: 3f6b8ef133e78f94c8c3e00b9c35b89a,
+    type: 3}
 --- !u!1 &5750658408754543296
 GameObject:
   m_ObjectHideFlags: 0

@@ -7,7 +7,7 @@ public abstract class Tile : MonoBehaviour
 {
     // Serialized *****
     [SerializeField] private SkinnedMeshRenderer _skinnedMeshRenderer;
-    [SerializeField] private Transform itemAnchor;
+    [SerializeField] protected Transform itemAnchor;
     [Header("Reference")]
     [SerializeField] protected Item initialItem; 
     // Private *****
@@ -51,7 +51,18 @@ public abstract class Tile : MonoBehaviour
         {
             if (cookware2.TryGetDish(out FoodData foodCooked))
             {
-                plate.PlateUpSoup(foodCooked.prefab);
+                plate.PlateUpSoup(foodCooked);
+            }
+            else
+            {
+                Debug.Log("Food not ready");
+            }
+        }
+        else if (_item && _item.TryGetComponent(out Plate plateF) && playerItem && playerItem.TryGetComponent(out Cookware cookwareF))
+        {
+            if (cookwareF.TryGetDish(out FoodData foodCooked))
+            {
+                plateF.PlateUpSoup(foodCooked);
             }
             else
             {
@@ -126,8 +137,9 @@ public abstract class Tile : MonoBehaviour
         return true;
     }
 
-    protected virtual void DropItem()
+    protected virtual void DropItem(bool destroy = false)
     {
+        if(destroy) Destroy(_item);
         _item = null;
     }
 }

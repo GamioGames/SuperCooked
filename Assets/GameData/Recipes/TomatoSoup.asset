@@ -16,4 +16,4 @@ MonoBehaviour:
   - food: {fileID: 11400000, guid: f45ac39c5f042f04288001916755a989, type: 2}
     amount: 3
   result: {fileID: 11400000, guid: 7194ed0d28fb22947992c4a79ff0654b, type: 2}
-  cookingTime: 10
+  cookingTime: 7

@@ -45,4 +45,9 @@ public class OrderUI : MonoBehaviour
         _orderTime = 60;
         _actualOrderTime = _orderTime;
     }
+
+    public void SuccessAndDestroy()
+    {
+        LeanTween.color(gameObject.GetComponent<RectTransform>(), Color.green, 0.5f).setDestroyOnComplete(true);
+    }
 }

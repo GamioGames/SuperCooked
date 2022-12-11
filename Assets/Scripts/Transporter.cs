@@ -1,20 +1,46 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Transporter : Tile
 {
-    // Monobehavior Callbacks *****
+    // Serialized *****
+    [SerializeField] private GameObject successVfxPrefab;
+    
+    // MonoBehavior Callbacks *****
 
     // Public Methods *****
     public override void ActionComplete()
     {
-        throw new System.NotImplementedException();
+        _onActionComplete();
     }
 
     // Private Methods *****
+    public override void TakeAction(PlayerInteraction owner, Item playerItem, Action onActionComplete)
+    {
+        _onActionComplete = onActionComplete;
+        
+        if (playerItem && playerItem.TryGetComponent(out Plate plate) && plate.IsCookedFood())
+        {
+            if (GrabItem(playerItem))
+            {
+                owner.DropItem();
+                SuccessOrder();
+            }
+            
+        }
+    }
+
     protected override void TakeAdvanceAction(PlayerInteraction owner)
     {
-        throw new System.NotImplementedException();
+        
+    }
+    private void SuccessOrder()
+    {
+        Debug.Log("Order success");
+        GameManager.Instance.SuccessOrder();
+        GameObject successVfx = Instantiate(successVfxPrefab, itemAnchor);
+        DropItem(true);
     }
 }
